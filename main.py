@@ -19,6 +19,7 @@ def download_video():
         
         download_progress_bar.set(0)
         download_progress_label.configure(text="")
+        video_download_button.configure(state="disabled")
 
         yt = YouTube(video_url, on_progress_callback=download_progress_callback)
         video = yt.streams.get_highest_resolution()
@@ -29,8 +30,10 @@ def download_video():
         video.download()
 
         download_status_label.configure(text="Download finished!", text_color="green")
+        video_download_button.configure(state="normal")
     except:
-        download_status_label.configure(text="Download error!", text_color="red")
+        download_status_label.configure(text="Download error! Maybe your URL is invalid?", text_color="red")
+        video_download_button.configure(state="normal")
 
 def download_progress_callback(stream, chunk, bytes_remaining):
     video_size = stream.filesize
